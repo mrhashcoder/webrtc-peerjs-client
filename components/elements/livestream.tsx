@@ -3,46 +3,57 @@
 
 import React, { useEffect, useState, useRef } from "react";
 import Peer from "peerjs";
+import singletoPeerConnection, { PeerConnection } from "@/lib/peerConnection";
 
-var PEER_SERVER = "peerjs-server-m97h.onrender.com";
-var PORT = 443;
+import { buttonVariants } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 function LiveStream() {
-    const [peerId, setPeerId] = useState("ballie-tv");
-    const [remotePeerIdValue, setRemotePeerIdValue] = useState("");
-    const remoteVideoRef = useRef(null);
-    const currentUserVideoRef = useRef(null);
-    const peerInstance = useRef(null);
     const [inputValue, setInputValue] = useState("");
 
     const handleSubmit = (e) => {
         e.preventDefault();
-        setPeerId(inputValue);
+        singletoPeerConnection.createClientPeerConnection(inputValue);
     };
 
-    useEffect(() => {
-        const peer = new Peer(peerId, {
-            host: PEER_SERVER,
-            port: PORT,
-            path: "/",
-            secure: true,
-        });
+    const [status, setStatus] = useState({
+        clientStatus: "Not Connected",
+        serverStatus: "Not Connected",
+    });
 
-        peer.on("open", (id) => {
-            console.log("Connection Made : " + id);
+    const handleRefresh = () => {
+        setStatus({
+            clientStatus: PeerConnection.isConnectedToPeerClient ? "Connected" : "Not Connected",
+            serverStatus: PeerConnection.isConnectedToPeerServer ? "Connected" : "Not Connected",
         });
-
-        peerInstance.current = peer;
-    }, [peerId]);
+    };
 
     return (
-        <>
-            <form onSubmit={handleSubmit}>
-                <input type="text" onChange={(e) => setInputValue(e.target.value)} value={inputValue} />
-                <button type="submit">Submit</button>
+        <div className="p-8 flex flex-col items-center justify-between">
+            <div className="m-12 flex flex-col justify-between items-center">
+                <div className="text-2xl text-bold">Server Status : {status.serverStatus}</div>
+
+                <div className="text-2xl text-bold">Client Status : {status.clientStatus} </div>
+
+                <button className={`mt-8 w-[10rem] ${cn(buttonVariants({ size: "lg" }))}`} onClick={handleRefresh}>
+                    Refresh
+                </button>
+            </div>
+
+            <form className="flex flex-col items-center" onSubmit={handleSubmit}>
+                <input
+                    className="border-black border-2 m-4"
+                    type="text"
+                    onChange={(e) => setInputValue(e.target.value)}
+                    value={inputValue}
+                />
+                <button className={`w-[14rem] ${cn(buttonVariants({ size: "lg" }))}`} type="submit">
+                    Send Connection Request
+                </button>
             </form>
+
             <div>Live Stream</div>
-        </>
+        </div>
     );
 }
 

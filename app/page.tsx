@@ -7,7 +7,7 @@ import LiveStream from "@/components/elements/livestream";
 
 export default function Home() {
     return (
-        <main className="flex flex-col min-h-screen items-center justify-between">
+        <main className="flex flex-col max-h-screen items-center justify-between">
             <h1> Main Page</h1>
             <LiveStream />
         </main>
