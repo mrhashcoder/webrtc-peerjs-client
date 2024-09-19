@@ -14,7 +14,7 @@ function LiveStream() {
     const [inputValue, setInputValue] = useState("");
     const [remoteStreams, addRemoteStream, removeRemoteStream] = useRemoteStreams();
     const [selfPeerId, setSelfPeerId] = useState("ballie-tv-3");
-    const [toConnectPeerId, setToConnectPeerId] = useState("mehal1");
+    const [toConnectPeerId, setToConnectPeerId] = useState("ballie-1");
 
     const [myPeer, myPeerID, excuteCall, isMobileDeviceReady] = usePeer(
         addRemoteStream,
