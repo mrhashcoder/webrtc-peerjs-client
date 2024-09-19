@@ -132,5 +132,14 @@ export default function usePeer(addRemoteStream, removeRemoteStream, peerId, toC
         };
     }, [myPeerID, toConnectPeerId]);
 
-    return [myPeer, myPeerID, excuteCall, isMobileDeviceReady, makeConnection];
+    return {
+        myPeer,
+        myPeerID,
+        toConnectPeerId,
+        excuteCall,
+        isMobileDeviceReady,
+        makeConnection,
+        setMyPeerID,
+        setToConnectPeerId,
+    };
 }

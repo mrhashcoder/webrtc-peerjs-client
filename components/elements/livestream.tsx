@@ -13,24 +13,30 @@ import Live from "./livePage";
 function LiveStream() {
     const [inputValue, setInputValue] = useState("");
     const [remoteStreams, addRemoteStream, removeRemoteStream] = useRemoteStreams();
-    const [selfPeerId, setSelfPeerId] = useState("ballie-1");
-    const [toConnectPeerId, setToConnectPeerId] = useState("ballie-3");
 
-    const [myPeer, myPeerID, excuteCall, isMobileDeviceReady, makeConnection] = usePeer(
-        addRemoteStream,
-        removeRemoteStream,
-        selfPeerId,
-        toConnectPeerId
-    );
+    const {
+        myPeer,
+        myPeerID,
+        toConnectPeerId,
+        excuteCall,
+        isMobileDeviceReady,
+        makeConnection,
+        setMyPeerID,
+        setToConnectPeerId,
+    } = usePeer(addRemoteStream, removeRemoteStream, "mrhashcoder", "ballie-1");
 
     const handleSubmit = (e) => {
+        console.log("DeviceReady");
         e.preventDefault();
         makeConnection();
     };
 
     useEffect(() => {
         if (isMobileDeviceReady) {
+            console.log("DeviceReady");
             excuteCall();
+        } else {
+            console.log("DeviceNOTReady");
         }
     }, [isMobileDeviceReady]);
 
@@ -47,8 +53,8 @@ function LiveStream() {
                     <input
                         className="border-black border-2 m-4"
                         type="text"
-                        onChange={(e) => setSelfPeerId(e.target.value)}
-                        value={selfPeerId}
+                        onChange={(e) => setMyPeerID(e.target.value)}
+                        value={myPeerID}
                     />
                 </div>
                 <div>
