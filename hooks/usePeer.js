@@ -38,6 +38,14 @@ export default function usePeer(addRemoteStream, removeRemoteStream, peerId, toC
         // setMyPeerID(null);
     };
 
+    function makeConnection() {
+        var c = myPeer.connect(toConnectPeerId, {
+            label: "chat",
+            serialization: "raw",
+            metadata: { message: "This is A Chat Request" },
+        });
+    }
+
     function excuteCall() {
         let call = myPeer.call(toConnectPeerId, localstream);
 
@@ -122,7 +130,7 @@ export default function usePeer(addRemoteStream, removeRemoteStream, peerId, toC
         return () => {
             cleanUp();
         };
-    }, [peerId]);
+    }, [myPeerID, toConnectPeerId]);
 
-    return [myPeer, myPeerID, excuteCall, isMobileDeviceReady];
+    return [myPeer, myPeerID, excuteCall, isMobileDeviceReady, makeConnection];
 }

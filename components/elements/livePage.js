@@ -20,28 +20,7 @@ export default function Live({ myPeerId, myStream, messages, sendMessage, remote
 
     return (
         <div className="live">
-            <div className="header-live">
-                <div className="logo-live">
-                    <img src="/static/images/democracy-earth.png" />
-                </div>
-                <div className="stream-logo">
-                    <img src="/static/images/live-stream.png" />
-                </div>
-            </div>ß
             <RemoteStream remoteStreams={remoteStreams} />
-            {/* {showChat && (
-                <Chatß¯
-                    myPeerId={myPeerId}
-                    messages={messages}
-                    sendMessage={sendMessage}
-                    close={() => setShowChat(false)}
-                />
-            )} */}
-            <div className="footer">
-                <div className="button-show-chat">
-                    <span className="chat-messeger-count">{unreadCount > 0 ? unreadCount : ""}</span>
-                </div>
-            </div>
         </div>
     );
 }
